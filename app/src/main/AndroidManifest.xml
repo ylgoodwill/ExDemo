@@ -12,10 +12,13 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- end: baidu speech sdk  权限 -->
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- end: baidu speech sdk  权限 -->
     <application
         android:name="com.voicerecognition.voicerecognition.android.ui.SimpleTransApplication"
         android:icon="@drawable/ic_launcher"
@@ -36,14 +39,13 @@
             android:name="com.baidu.speech.VoiceRecognitionService"
             android:exported="false" />
 
-        <activity android:name="com.voicerecognition.android.voicedemo.activity.ActivityMain">
+        <activity android:name="com.ActivityMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.voicerecognition.android.voicedemo.activity.ActivityOnline"
             android:configChanges="orientation|keyboardHidden|screenLayout"
@@ -66,7 +68,6 @@
                 <category android:name="com.baidu.speech.recognizerdemo.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.voicerecognition.voicerecognition.android.ui.BaiduASRDigitalDialog"
             android:configChanges="orientation|keyboardHidden|screenLayout"
@@ -75,8 +76,18 @@
             android:theme="@android:style/Theme.Dialog">
             <intent-filter>
                 <action android:name="com.baidu.action.RECOGNIZE_SPEECH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.wordrecognition.ui.camera.CameraActivity"
+            android:configChanges="screenSize|orientation"
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"/>
+        <activity android:name="com.wordrecognition.IDCardActivity"
+            android:label="@string/idCardLabel">
+        </activity>
+        <activity android:name="com.wordrecognition.MainActivity"
+            android:label="@string/idCardLabel">
         </activity>
     </application>
 
