@@ -86,9 +86,6 @@
         <activity android:name="com.wordrecognition.IDCardActivity"
             android:label="@string/idCardLabel">
         </activity>
-        <activity android:name="com.wordrecognition.MainActivity"
-            android:label="@string/idCardLabel">
-        </activity>
     </application>
 
 </manifest>
