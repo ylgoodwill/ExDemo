@@ -46,10 +46,10 @@ public class MessageStatusRecogListener extends StatusRecogListener {
     public void onAsrFinalResult(String[] results, RecogResult recogResult) {
         super.onAsrFinalResult(results, recogResult);
         String message = "识别结束，结果是”" + results[0] + "”";
-        sendStatusMessage(message + "“；原始json：" + recogResult.getOrigalJson());
+       // sendStatusMessage(message + "“；原始json：" + recogResult.getOrigalJson());
         if (speechEndTime > 0) {
             long diffTime = System.currentTimeMillis() - speechEndTime;
-            message += "；说话结束到识别结束耗时【" + diffTime + "ms】";
+           // message += "；说话结束到识别结束耗时【" + diffTime + "ms】";
 
         }
         speechEndTime = 0;
@@ -59,12 +59,13 @@ public class MessageStatusRecogListener extends StatusRecogListener {
     @Override
     public void onAsrFinishError(int errorCode, int subErrorCode, String errorMessage, String descMessage, RecogResult recogResult) {
         super.onAsrFinishError(errorCode, subErrorCode, errorMessage, descMessage, recogResult);
-        String message = "识别错误, 错误码：" + errorCode + "," + subErrorCode;
+        //String message = "识别错误, 错误码：" + errorCode + "," + subErrorCode;
+        String message = "无法识别，请重新录音" ;
         sendStatusMessage(message + "；错误消息:" + errorMessage + "；描述信息：" + descMessage);
-        if (speechEndTime > 0) {
-            long diffTime = System.currentTimeMillis() - speechEndTime;
-            message += "。说话结束到识别结束耗时【" + diffTime + "ms】";
-        }
+//        if (speechEndTime > 0) {
+//            long diffTime = System.currentTimeMillis() - speechEndTime;
+//            message += "。说话结束到识别结束耗时【" + diffTime + "ms】";
+//        }
         speechEndTime = 0;
         sendMessage(message, status, true);
         speechEndTime = 0;
@@ -81,7 +82,7 @@ public class MessageStatusRecogListener extends StatusRecogListener {
     @Override
     public void onAsrFinish(RecogResult recogResult) {
         super.onAsrFinish(recogResult);
-        sendStatusMessage("识别一段话结束。如果是长语音的情况会继续识别下段话。");
+        //sendStatusMessage("识别一段话结束。如果是长语音的情况会继续识别下段话。");
 
     }
 
@@ -131,9 +132,9 @@ public class MessageStatusRecogListener extends StatusRecogListener {
 
 
     private void sendMessage(String message, int what, boolean highlight) {
-        if (needTime && what != STATUS_FINISHED) {
-            message += "  ;time=" + System.currentTimeMillis();
-        }
+//        if (needTime && what != STATUS_FINISHED) {
+//            message += "  ;time=" + System.currentTimeMillis();
+//        }
         Message msg = Message.obtain();
         msg.what = what;
         msg.arg1 = status;

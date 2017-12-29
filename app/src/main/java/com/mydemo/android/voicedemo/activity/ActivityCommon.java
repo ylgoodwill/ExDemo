@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -59,7 +60,9 @@ public abstract class ActivityCommon extends AppCompatActivity {
 
     protected void handleMsg(Message msg) {
         if (txtLog != null && msg.obj != null) {
-            txtLog.append(msg.obj.toString() + "\n");
+            String[] content = msg.obj.toString().split("原始json");
+            if (!content[0].contains("INFO")&& !content[0].contains("ERROR"))
+                txtLog.append(content[0] + "\n");
         }
     }
 
