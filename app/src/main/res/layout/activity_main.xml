@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mydemo.android.voicedemo.activity.ActivityMain">
+    tools:context="com.voicerecognition.android.voicedemo.activity.ActivityMain">
 
     <Button
         android:id="@+id/voice_re"

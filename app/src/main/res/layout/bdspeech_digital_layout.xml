@@ -76,7 +76,7 @@
                             android:visibility="gone" />
                     </FrameLayout>
 
-                    <com.mydemo.voicerecognition.android.ui.SDKAnimationView
+                    <com.voicerecognition.voicerecognition.android.ui.SDKAnimationView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -108,7 +108,7 @@
                         android:visibility="gone" />
                 </LinearLayout>
 
-                <com.mydemo.voicerecognition.android.ui.SDKProgressBar
+                <com.voicerecognition.voicerecognition.android.ui.SDKProgressBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:tag="progress" />
