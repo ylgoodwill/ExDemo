@@ -4,7 +4,6 @@
 package com.wordrecognition.ui.camera;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -12,17 +11,16 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.IntDef;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-
 import com.baidu.speech.recognizerdemo.R;
 
 import java.io.File;
+
+//import android.support.annotation.RequiresApi;
 
 @SuppressWarnings("unused")
 public class MaskView extends View {
@@ -146,41 +144,41 @@ public class MaskView extends View {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        int width = frame.width();
-        int height = frame.height();
-
-        int left = frame.left;
-        int top = frame.top;
-        int right = frame.right;
-        int bottom = frame.bottom;
-
-        canvas.drawColor(maskColor);
-        fillRectRound(left, top, right, bottom, 30, 30, false);
-        canvas.drawPath(path, pen);
-        canvas.drawPath(path, eraser);
-
-        if (maskType == MASK_TYPE_ID_CARD_FRONT) {
-            locatorDrawable.setBounds(
-                    (int) (left + 601f / 1006 * width),
-                    (int) (top + (110f / 632) * height),
-                    (int) (left + (963f / 1006) * width),
-                    (int) (top + (476f / 632) * height));
-        } else if (maskType == MASK_TYPE_ID_CARD_BACK) {
-            locatorDrawable.setBounds(
-                    (int) (left + 51f / 1006 * width),
-                    (int) (top + (48f / 632) * height),
-                    (int) (left + (250f / 1006) * width),
-                    (int) (top + (262f / 632) * height));
-        }
-        if (locatorDrawable != null) {
-            locatorDrawable.draw(canvas);
-        }
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//    @Override
+//    protected void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
+//
+//        int width = frame.width();
+//        int height = frame.height();
+//
+//        int left = frame.left;
+//        int top = frame.top;
+//        int right = frame.right;
+//        int bottom = frame.bottom;
+//
+//        canvas.drawColor(maskColor);
+//        fillRectRound(left, top, right, bottom, 30, 30, false);
+//        canvas.drawPath(path, pen);
+//        canvas.drawPath(path, eraser);
+//
+//        if (maskType == MASK_TYPE_ID_CARD_FRONT) {
+//            locatorDrawable.setBounds(
+//                    (int) (left + 601f / 1006 * width),
+//                    (int) (top + (110f / 632) * height),
+//                    (int) (left + (963f / 1006) * width),
+//                    (int) (top + (476f / 632) * height));
+//        } else if (maskType == MASK_TYPE_ID_CARD_BACK) {
+//            locatorDrawable.setBounds(
+//                    (int) (left + 51f / 1006 * width),
+//                    (int) (top + (48f / 632) * height),
+//                    (int) (left + (250f / 1006) * width),
+//                    (int) (top + (262f / 632) * height));
+//        }
+//        if (locatorDrawable != null) {
+//            locatorDrawable.draw(canvas);
+//        }
+//    }
 
     private Path path = new Path();
 
