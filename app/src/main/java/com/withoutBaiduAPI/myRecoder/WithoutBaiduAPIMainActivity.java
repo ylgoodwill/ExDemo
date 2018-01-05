@@ -65,6 +65,7 @@ public class WithoutBaiduAPIMainActivity extends AppCompatActivity implements Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.withoutbaiduapiactivity_main);
+        flag = true;
         initPermission();
 //        //判断SDK版本是否大于等于19，大于就让他显示，小于就要隐藏，不然低版本会多出来一个
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -95,6 +96,10 @@ public class WithoutBaiduAPIMainActivity extends AppCompatActivity implements Vi
                     downT = System.currentTimeMillis();
                     recoderDialog.showAtLocation(view, Gravity.CENTER, 0, 0);
                     button.setBackgroundResource(R.drawable.shape_recoder_btn_recoding);
+                }
+                else {
+                    Toast.makeText(WithoutBaiduAPIMainActivity.this, "缺少权限", Toast.LENGTH_LONG).show();
+                    this.finish();
                 }
                 return true;
             case MotionEvent.ACTION_UP:

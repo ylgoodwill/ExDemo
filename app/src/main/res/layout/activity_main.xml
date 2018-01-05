@@ -14,18 +14,28 @@
     <Button
         android:id="@+id/voice_re"
         android:text="语音识别(百度API版)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        />
     <Button
         android:id="@+id/voice_re2"
         android:text="语音识别(非百度API版)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/word_re"
         android:text="文字识别"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+    <Button
+        android:id="@+id/bankCard_re"
+        android:text="银行卡识别"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
 
 </LinearLayout>

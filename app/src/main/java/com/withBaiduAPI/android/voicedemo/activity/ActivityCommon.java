@@ -1,20 +1,20 @@
 package com.withBaiduAPI.android.voicedemo.activity;
 
 import android.Manifest;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.withBaiduAPI.android.voicedemo.util.Logger;
 import com.baidu.speech.recognizerdemo.R;
 import com.withBaiduAPI.android.voicedemo.recognization.online.InFileStream;
+import com.withBaiduAPI.android.voicedemo.util.Logger;
 
 import java.util.ArrayList;
 
@@ -54,6 +54,10 @@ public abstract class ActivityCommon extends AppCompatActivity {
         initPermission();
         if (flag)
             initRecog();
+        else {
+            Toast.makeText(ActivityCommon.this, "缺少权限", Toast.LENGTH_LONG).show();
+            this.finish();
+        }
     }
 
 

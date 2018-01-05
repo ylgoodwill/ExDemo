@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,10 +22,15 @@ import com.withoutBaiduAPI.myRecoder.WithoutBaiduAPIMainActivity;
 import com.wordrecognition.FileUtil;
 import com.wordrecognition.ui.camera.CameraActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ActivityMain extends AppCompatActivity {
     Button voice_Re;
     Button voice_re2;
     Button word_Re;
+    Button bankCard_re;
     private boolean hasGotToken = false;
     private AlertDialog.Builder alertDialog;
     private static final int REQUEST_CODE_GENERAL = 105;
@@ -39,6 +45,7 @@ public class ActivityMain extends AppCompatActivity {
     private static final int REQUEST_CODE_LICENSE_PLATE = 122;
     private static final int REQUEST_CODE_BUSINESS_LICENSE = 123;
     private static final int REQUEST_CODE_RECEIPT = 124;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,16 +54,17 @@ public class ActivityMain extends AppCompatActivity {
         voice_Re = (Button) findViewById(R.id.voice_re);
         voice_re2 = (Button) findViewById(R.id.voice_re2);
         word_Re = (Button) findViewById(R.id.word_re);
+        bankCard_re = (Button) findViewById(R.id.bankCard_re);
         voice_Re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ActivityMain.this,ActivityOnline.class));
+                startActivity(new Intent(ActivityMain.this, ActivityOnline.class));
             }
         });
         voice_re2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ActivityMain.this,WithoutBaiduAPIMainActivity.class));
+                startActivity(new Intent(ActivityMain.this, WithoutBaiduAPIMainActivity.class));
             }
         });
         word_Re.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +78,22 @@ public class ActivityMain extends AppCompatActivity {
                         FileUtil.getSaveFile(getApplication()).getAbsolutePath());
                 intent.putExtra(CameraActivity.KEY_CONTENT_TYPE,
                         CameraActivity.CONTENT_TYPE_GENERAL);
-                startActivityForResult(intent, REQUEST_CODE_ACCURATE_BASIC);
+                startActivityForResult(intent, REQUEST_CODE_ACCURATE_BASIC);//高精度文字识别
+            }
+
+        });
+        bankCard_re.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!checkTokenStatus()) {
+                    return;
+                }
+                Intent intent = new Intent(ActivityMain.this, CameraActivity.class);
+                intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
+                        FileUtil.getSaveFile(getApplication()).getAbsolutePath());
+                intent.putExtra(CameraActivity.KEY_CONTENT_TYPE,
+                        CameraActivity.CONTENT_TYPE_GENERAL);
+                startActivityForResult(intent, REQUEST_CODE_BANKCARD);//银行卡识别
             }
         });
         initAccessTokenWithAkSk();
@@ -82,14 +105,16 @@ public class ActivityMain extends AppCompatActivity {
         }
         return hasGotToken;
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // 释放内存资源
         OCR.getInstance().release();
     }
+
     private void infoPopText(final String result) {
-        alertText("", result);
+        alertText("识别结果为：", result);
     }
 
     private void alertText(final String title, final String message) {
@@ -100,9 +125,14 @@ public class ActivityMain extends AppCompatActivity {
                         .setMessage(message)
                         .setPositiveButton("确定", null)
                         .show();
+                word_Re.setEnabled(true);
+                word_Re.setText("文字识别");
+                bankCard_re.setEnabled(true);
+                bankCard_re.setText("银行卡识别");
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -113,6 +143,7 @@ public class ActivityMain extends AppCompatActivity {
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
+                            Log.e("111", "通用文字识别（含位置信息）" + result);
                             infoPopText(result);
                         }
                     });
@@ -124,29 +155,64 @@ public class ActivityMain extends AppCompatActivity {
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
-                            infoPopText(result);
+                            try {
+                                JSONObject json = new JSONObject(result);
+                                String xx = json.toString(2);
+                                Log.e("111", "得到的json数据为" + xx);
+                                StringBuilder resultString = new StringBuilder();
+                                JSONArray jsonArr = json.getJSONArray("words_result");
+                                for (int i = 0; i < jsonArr.length(); i++) {
+                                    JSONObject object = jsonArr.getJSONObject(i);
+                                    String re = object.getString("words");
+                                    resultString.append(re).append("\n");
+                                }
+                                String xxx = resultString.toString();
+                                infoPopText(xxx);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
         }
-
         // 识别成功回调，通用文字识别
         if (requestCode == REQUEST_CODE_GENERAL_BASIC && resultCode == Activity.RESULT_OK) {
             RecognizeService.recGeneralBasic(FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
-                            infoPopText(result);
+                            Log.e("111", "通用文字识别" + result);
+                            //infoPopText(result);
                         }
                     });
         }
 
         // 识别成功回调，通用文字识别（高精度版）
         if (requestCode == REQUEST_CODE_ACCURATE_BASIC && resultCode == Activity.RESULT_OK) {
+            word_Re.setEnabled(false);
+            word_Re.setText("文字正在识别请稍后");
+            final long startT = System.currentTimeMillis();
             RecognizeService.recAccurateBasic(FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
-                            infoPopText(result);
+                            try {
+                                JSONObject json = new JSONObject(result);
+                                String xx = json.toString(2);
+                                Log.e("111", "文字识别得到的json数据为" + xx);
+                                StringBuilder resultString = new StringBuilder();
+                                JSONArray jsonArr = json.getJSONArray("words_result");
+                                for (int i = 0; i < jsonArr.length(); i++) {
+                                    JSONObject object = jsonArr.getJSONObject(i);
+                                    String re = object.getString("words");
+                                    resultString.append(re).append("\n");
+                                }
+                                resultString.append("[识别耗费时间为：").append(System.currentTimeMillis()
+                                        - startT).append("ms]");
+                                String xxx = resultString.toString();
+                                infoPopText(xxx);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
         }
@@ -157,7 +223,8 @@ public class ActivityMain extends AppCompatActivity {
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
-                            infoPopText(result);
+                            Log.e("111", "通用文字识别（含生僻字版）" + result);
+                            // infoPopText(result);
                         }
                     });
         }
@@ -168,18 +235,33 @@ public class ActivityMain extends AppCompatActivity {
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
-                            infoPopText(result);
+                            Log.e("111", "网络图片文字识别" + result);
+                            // infoPopText(result);
                         }
                     });
         }
 
         // 识别成功回调，银行卡识别
         if (requestCode == REQUEST_CODE_BANKCARD && resultCode == Activity.RESULT_OK) {
+            bankCard_re.setEnabled(false);
+            bankCard_re.setText("银行卡正在识别请稍后");
+            final long startTime = System.currentTimeMillis();
             RecognizeService.recBankCard(FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
-                            infoPopText(result);
+                            Log.e("111", result );
+                            long xx = System.currentTimeMillis() - startTime;
+                            StringBuilder b = new StringBuilder();
+                            if (!result.startsWith("卡")){
+                                b.append("识别错误，请传入正确银行卡。\n")
+                                        .append("[识别耗费时间为：").append(xx).append("ms]");
+                            }
+                            else{
+                                b.append(result+"\n")
+                                        .append("[识别耗费时间为:").append(xx).append("ms]");
+                            }
+                            infoPopText(b.toString());
                         }
                     });
         }
@@ -208,11 +290,33 @@ public class ActivityMain extends AppCompatActivity {
 
         // 识别成功回调，车牌识别
         if (requestCode == REQUEST_CODE_LICENSE_PLATE && resultCode == Activity.RESULT_OK) {
+            final long start =System.currentTimeMillis();
             RecognizeService.recLicensePlate(FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
-                            infoPopText(result);
+                            Log.e("111", result );
+                            long xx = System.currentTimeMillis() - start;
+                            StringBuilder b = new StringBuilder();
+                            if (result.startsWith("[282000]")){
+                                b.append("识别错误，请重新上传。\n")
+                                        .append("[识别耗费时间为：").append(xx).append("ms]");
+                            }
+                            else{
+                                try {
+                                    JSONObject kk = new JSONObject(result);
+                                    String color = kk.getString("color");
+                                    String number = kk.getString("number");
+                                    b.append("车牌颜色为："+color+"\n")
+                                            .append("车牌号为："+number+"\n")
+                                            .append("[识别耗费时间为:").append(xx).append("ms]");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.e("111", b.toString() );
+
+                            }
+                            infoPopText(b.toString());
                         }
                     });
         }

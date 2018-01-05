@@ -111,8 +111,10 @@ public class FrameOverlayView extends View {
             frameRect.left = (int) (w * 0.2);
             frameRect.top = (int) (h * 0.2);
         }
-        frameRect.right = w - frameRect.left;
-        frameRect.bottom = h - frameRect.top;
+//        frameRect.right = w - frameRect.left;
+//        frameRect.bottom = h - frameRect.top;
+          frameRect.right = w ;
+          frameRect.bottom = h ;
     }
 
     private int shapeType = 0;
