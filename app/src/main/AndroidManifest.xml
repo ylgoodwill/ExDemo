@@ -80,23 +80,25 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.wordrecognition.ui.camera.CameraActivity"
+        <activity
+            android:name="com.wordrecognition.ui.camera.CameraActivity"
             android:configChanges="screenSize|orientation"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"/>
-        <activity android:name="com.wordrecognition.IDCardActivity"
-            android:label="@string/idCardLabel">
-        </activity>
-
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" />
+        <activity
+            android:name="com.wordrecognition.IDCardActivity"
+            android:label="@string/idCardLabel"></activity>
         <activity
             android:name="com.withoutBaiduAPI.myRecoder.WithoutBaiduAPIMainActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout"
-            android:screenOrientation="portrait"
-            android:label="语音识别（非百度API版）">
+            android:label="语音识别（非百度API版）"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="com.baidu.speech.recognizerdemo.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+        <activity android:name="com.manfacerecognition.CheckManFaceActivity"></activity>
     </application>
 
 </manifest>

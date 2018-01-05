@@ -17,6 +17,7 @@ import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
 import com.baidu.speech.recognizerdemo.R;
+import com.manfacerecognition.CheckManFaceActivity;
 import com.withBaiduAPI.android.voicedemo.activity.ActivityOnline;
 import com.withoutBaiduAPI.myRecoder.WithoutBaiduAPIMainActivity;
 import com.wordrecognition.FileUtil;
@@ -31,6 +32,7 @@ public class ActivityMain extends AppCompatActivity {
     Button voice_re2;
     Button word_Re;
     Button bankCard_re;
+    Button manface_re;
     private boolean hasGotToken = false;
     private AlertDialog.Builder alertDialog;
     private static final int REQUEST_CODE_GENERAL = 105;
@@ -55,6 +57,7 @@ public class ActivityMain extends AppCompatActivity {
         voice_re2 = (Button) findViewById(R.id.voice_re2);
         word_Re = (Button) findViewById(R.id.word_re);
         bankCard_re = (Button) findViewById(R.id.bankCard_re);
+        manface_re = (Button) findViewById(R.id.manface_re);
         voice_Re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +97,12 @@ public class ActivityMain extends AppCompatActivity {
                 intent.putExtra(CameraActivity.KEY_CONTENT_TYPE,
                         CameraActivity.CONTENT_TYPE_GENERAL);
                 startActivityForResult(intent, REQUEST_CODE_BANKCARD);//银行卡识别
+            }
+        });
+        manface_re.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ActivityMain.this, CheckManFaceActivity.class));
             }
         });
         initAccessTokenWithAkSk();

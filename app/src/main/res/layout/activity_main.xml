@@ -37,5 +37,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"/>
+    <Button
+        android:id="@+id/manface_re"
+        android:text="人脸检测"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
 
 </LinearLayout>

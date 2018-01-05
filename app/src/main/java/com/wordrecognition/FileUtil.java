@@ -4,10 +4,16 @@
 package com.wordrecognition;
 
 import android.content.Context;
+import android.os.Environment;
 
 import java.io.File;
 
 public class FileUtil {
+    public static File getSaveFile2(Context context) {
+        File file = new File(Environment.getExternalStorageDirectory() + "/test.jpg");
+        return file;
+    }
+
     public static File getSaveFile(Context context) {
         File file = new File(context.getFilesDir(), "pic.jpg");
         return file;
