@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.withBaiduAPI.android.voicedemo.util.Logger;
 import com.baidu.speech.recognizerdemo.R;
@@ -28,7 +29,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
     protected String DESC_TEXT;
 
     protected int layout = R.layout.common;
-
+    public boolean flag = true;
     protected boolean running = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,8 @@ public abstract class ActivityCommon extends AppCompatActivity {
         };
         Logger.setHandler(handler);
         initPermission();
-        initRecog();
+        if (flag)
+            initRecog();
     }
 
 
@@ -96,6 +98,7 @@ public abstract class ActivityCommon extends AppCompatActivity {
         String tmpList[] = new String[toApplyList.size()];
         if (!toApplyList.isEmpty()){
             ActivityCompat.requestPermissions(this, toApplyList.toArray(tmpList), 123);
+            flag = false;
         }
 
     }
@@ -103,6 +106,21 @@ public abstract class ActivityCommon extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         // 此处为android 6.0以上动态授权的回调，用户自行实现。
+        switch (requestCode) {
+            case 123: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    flag =true;
+
+
+                } else {
+                    Toast.makeText(ActivityCommon.this,"缺少权限！", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 
 }

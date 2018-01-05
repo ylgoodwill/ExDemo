@@ -19,6 +19,7 @@ import com.baidu.speech.recognizerdemo.R;
 import com.withBaiduAPI.android.voicedemo.activity.ActivityOnline;
 import com.withoutBaiduAPI.myRecoder.WithoutBaiduAPIMainActivity;
 import com.wordrecognition.FileUtil;
+import com.wordrecognition.ui.camera.CameraActivity;
 
 public class ActivityMain extends AppCompatActivity {
     Button voice_Re;
@@ -45,7 +46,7 @@ public class ActivityMain extends AppCompatActivity {
         alertDialog = new AlertDialog.Builder(this);
         voice_Re = (Button) findViewById(R.id.voice_re);
         voice_re2 = (Button) findViewById(R.id.voice_re2);
-      // word_Re = (Button) findViewById(R.id.word_re);
+        word_Re = (Button) findViewById(R.id.word_re);
         voice_Re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,21 +59,21 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(new Intent(ActivityMain.this,WithoutBaiduAPIMainActivity.class));
             }
         });
-//        word_Re.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!checkTokenStatus()) {
-//                    return;
-//                }
-//                Intent intent = new Intent(ActivityMain.this, CameraActivity.class);
-//                intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
-//                        FileUtil.getSaveFile(getApplication()).getAbsolutePath());
-//                intent.putExtra(CameraActivity.KEY_CONTENT_TYPE,
-//                        CameraActivity.CONTENT_TYPE_GENERAL);
-//                startActivityForResult(intent, REQUEST_CODE_ACCURATE_BASIC);
-//            }
-//        });
-//        initAccessTokenWithAkSk();
+        word_Re.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!checkTokenStatus()) {
+                    return;
+                }
+                Intent intent = new Intent(ActivityMain.this, CameraActivity.class);
+                intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
+                        FileUtil.getSaveFile(getApplication()).getAbsolutePath());
+                intent.putExtra(CameraActivity.KEY_CONTENT_TYPE,
+                        CameraActivity.CONTENT_TYPE_GENERAL);
+                startActivityForResult(intent, REQUEST_CODE_ACCURATE_BASIC);
+            }
+        });
+        initAccessTokenWithAkSk();
     }
 
     private boolean checkTokenStatus() {
@@ -85,7 +86,7 @@ public class ActivityMain extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         // 释放内存资源
-        //OCR.getInstance().release();
+        OCR.getInstance().release();
     }
     private void infoPopText(final String result) {
         alertText("", result);

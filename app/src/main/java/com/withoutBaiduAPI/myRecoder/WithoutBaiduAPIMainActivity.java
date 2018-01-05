@@ -1,8 +1,12 @@
 package com.withoutBaiduAPI.myRecoder;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,6 +51,7 @@ public class WithoutBaiduAPIMainActivity extends AppCompatActivity implements Vi
     public String path = "";
     public long startTime = 0;
     public long endTime = 0;
+    public boolean flag = true;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -59,7 +65,7 @@ public class WithoutBaiduAPIMainActivity extends AppCompatActivity implements Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.withoutbaiduapiactivity_main);
-
+        initPermission();
 //        //判断SDK版本是否大于等于19，大于就让他显示，小于就要隐藏，不然低版本会多出来一个
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            setTranslucentStatus(true);
@@ -84,22 +90,67 @@ public class WithoutBaiduAPIMainActivity extends AppCompatActivity implements Vi
             case MotionEvent.ACTION_DOWN:
                 textView.setText("语音内容为:\n");
                 //recoderUtils.startRecord();
-                audioUtil.startRecord();
-                downT = System.currentTimeMillis();
-                recoderDialog.showAtLocation(view, Gravity.CENTER, 0, 0);
-                button.setBackgroundResource(R.drawable.shape_recoder_btn_recoding);
+                if (flag){
+                    audioUtil.startRecord();
+                    downT = System.currentTimeMillis();
+                    recoderDialog.showAtLocation(view, Gravity.CENTER, 0, 0);
+                    button.setBackgroundResource(R.drawable.shape_recoder_btn_recoding);
+                }
                 return true;
             case MotionEvent.ACTION_UP:
                 //recoderUtils.stopRecord();
-
-                audioUtil.stopRecord();
-                recoderDialog.dismiss();
-                button.setBackgroundResource(R.drawable.shape_recoder_btn_normal);
-                Toast.makeText(WithoutBaiduAPIMainActivity.this, "录制完成", Toast.LENGTH_LONG).show();
-                test();
+                if (flag) {
+                    audioUtil.stopRecord();
+                    recoderDialog.dismiss();
+                    button.setBackgroundResource(R.drawable.shape_recoder_btn_normal);
+                    Toast.makeText(WithoutBaiduAPIMainActivity.this, "录制完成", Toast.LENGTH_LONG).show();
+                    test();
+                }
                 return true;
         }
         return false;
+    }
+
+    private void initPermission() {
+        String permissions[] = {Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+
+        ArrayList<String> toApplyList = new ArrayList<String>();
+
+        for (String perm :permissions){
+            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, perm)) {
+                toApplyList.add(perm);
+                //进入到这里代表没有权限.
+
+            }
+        }
+        String tmpList[] = new String[toApplyList.size()];
+        if (!toApplyList.isEmpty()){
+            ActivityCompat.requestPermissions(this, toApplyList.toArray(tmpList), 123);
+            flag = false;
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // 此处为android 6.0以上动态授权的回调，用户自行实现。
+        switch (requestCode) {
+            case 123: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    flag =true;
+                } else {
+                    Toast.makeText(WithoutBaiduAPIMainActivity.this,"缺少权限！", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 
     private void test() {
