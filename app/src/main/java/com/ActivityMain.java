@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ar.ARActivity;
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
@@ -33,6 +34,7 @@ public class ActivityMain extends AppCompatActivity {
     Button word_Re;
     Button bankCard_re;
     Button manface_re;
+    Button ar_re;
     private boolean hasGotToken = false;
     private AlertDialog.Builder alertDialog;
     private static final int REQUEST_CODE_GENERAL = 105;
@@ -58,6 +60,7 @@ public class ActivityMain extends AppCompatActivity {
         word_Re = (Button) findViewById(R.id.word_re);
         bankCard_re = (Button) findViewById(R.id.bankCard_re);
         manface_re = (Button) findViewById(R.id.manface_re);
+        ar_re = (Button) findViewById(R.id.ar_re);
         voice_Re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +106,16 @@ public class ActivityMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ActivityMain.this, CheckManFaceActivity.class));
+            }
+        });
+        ar_re.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ActivityMain.this, ARActivity.class);
+                intent.putExtra("ar_key", 10006416);
+                intent.putExtra("ar_type", 0);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
         initAccessTokenWithAkSk();

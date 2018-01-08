@@ -10,11 +10,16 @@
 
     <!-- begin: baidu speech sdk  权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -39,7 +44,8 @@
             android:name="com.baidu.speech.VoiceRecognitionService"
             android:exported="false" />
 
-        <activity android:name="com.ActivityMain"
+        <activity
+            android:name="com.ActivityMain"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -87,7 +93,7 @@
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" />
         <activity
             android:name="com.wordrecognition.IDCardActivity"
-            android:label="@string/idCardLabel"></activity>
+            android:label="@string/idCardLabel" />
         <activity
             android:name="com.withoutBaiduAPI.myRecoder.WithoutBaiduAPIMainActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout"
@@ -99,8 +105,11 @@
                 <category android:name="com.baidu.speech.recognizerdemo.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-        <activity android:name="com.manfacerecognition.CheckManFaceActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.manfacerecognition.CheckManFaceActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.ar.ARActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
