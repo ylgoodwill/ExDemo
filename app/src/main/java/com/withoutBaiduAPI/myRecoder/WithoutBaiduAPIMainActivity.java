@@ -180,7 +180,12 @@ public class WithoutBaiduAPIMainActivity extends AppCompatActivity implements Vi
             call1.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                           Toast.makeText(WithoutBaiduAPIMainActivity.this,"网络连接异常",Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
 
                 @Override

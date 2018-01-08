@@ -76,6 +76,7 @@ public class ActivityMain extends AppCompatActivity {
         word_Re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initAccessTokenWithAkSk();
                 if (!checkTokenStatus()) {
                     return;
                 }
@@ -91,6 +92,7 @@ public class ActivityMain extends AppCompatActivity {
         bankCard_re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                initAccessTokenWithAkSk();
                 if (!checkTokenStatus()) {
                     return;
                 }
@@ -118,7 +120,7 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        initAccessTokenWithAkSk();
+
     }
 
     private boolean checkTokenStatus() {

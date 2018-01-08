@@ -223,9 +223,15 @@ public class CheckManFaceActivity extends AppCompatActivity {
         call1.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(CheckManFaceActivity.this, "网络连接异常", Toast.LENGTH_LONG).show();
-                face_check.setText("选择图片");
-                face_check.setEnabled(true);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(CheckManFaceActivity.this, "网络连接异常", Toast.LENGTH_LONG).show();
+                        face_check.setText("选择图片");
+                        face_check.setEnabled(true);
+                    }
+                });
+
             }
 
             @Override
