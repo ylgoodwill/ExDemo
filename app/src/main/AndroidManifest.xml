@@ -39,7 +39,8 @@
             android:name="com.baidu.speech.VoiceRecognitionService"
             android:exported="false" />
 
-        <activity android:name="com.ActivityMain">
+        <activity android:name="com.ActivityMain"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -98,7 +99,8 @@
                 <category android:name="com.baidu.speech.recognizerdemo.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-        <activity android:name="com.manfacerecognition.CheckManFaceActivity"></activity>
+        <activity android:name="com.manfacerecognition.CheckManFaceActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -209,16 +209,27 @@ public class ActivityMain extends AppCompatActivity {
                                 String xx = json.toString(2);
                                 Log.e("111", "文字识别得到的json数据为" + xx);
                                 StringBuilder resultString = new StringBuilder();
-                                JSONArray jsonArr = json.getJSONArray("words_result");
-                                for (int i = 0; i < jsonArr.length(); i++) {
-                                    JSONObject object = jsonArr.getJSONObject(i);
-                                    String re = object.getString("words");
-                                    resultString.append(re).append("\n");
+                                int words_result_num = json.getInt("words_result_num");
+                                if (words_result_num!=0){
+                                    JSONArray jsonArr = json.getJSONArray("words_result");
+                                    for (int i = 0; i < jsonArr.length(); i++) {
+                                        JSONObject object = jsonArr.getJSONObject(i);
+                                        String re = object.getString("words");
+                                        resultString.append(re).append("\n");
+                                    }
+                                    resultString.append("[识别耗费时间为：").append(System.currentTimeMillis()
+                                            - startT).append("ms]");
+                                    String xxx = resultString.toString();
+                                    infoPopText(xxx);
                                 }
-                                resultString.append("[识别耗费时间为：").append(System.currentTimeMillis()
-                                        - startT).append("ms]");
-                                String xxx = resultString.toString();
-                                infoPopText(xxx);
+                                else {
+                                    String xx1 = "未识别到文字\n"+
+                                            "[识别耗费时间为："+
+                                            (System.currentTimeMillis()-startT)+
+                                            "ms]";
+                                    infoPopText(xx1);
+                                }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
