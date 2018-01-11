@@ -13,14 +13,14 @@
 
     <Button
         android:id="@+id/voice_re"
-        android:text="语音识别(百度API版)"
+        android:text="语音识别(百度SDK版)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         />
     <Button
         android:id="@+id/voice_re2"
-        android:text="语音识别(非百度API版)"
+        android:text="语音识别(非百度SDK版)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"/>
@@ -45,7 +45,7 @@
         android:gravity="center"/>
     <Button
         android:id="@+id/ar_re"
-        android:text="AR检测"
+        android:text="AR测试"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"/>

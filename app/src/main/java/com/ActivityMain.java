@@ -76,7 +76,6 @@ public class ActivityMain extends AppCompatActivity {
         word_Re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initAccessTokenWithAkSk();
                 if (!checkTokenStatus()) {
                     return;
                 }
@@ -92,7 +91,6 @@ public class ActivityMain extends AppCompatActivity {
         bankCard_re.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initAccessTokenWithAkSk();
                 if (!checkTokenStatus()) {
                     return;
                 }
@@ -120,7 +118,7 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        initAccessTokenWithAkSk();
     }
 
     private boolean checkTokenStatus() {
@@ -167,7 +165,6 @@ public class ActivityMain extends AppCompatActivity {
                     new RecognizeService.ServiceListener() {
                         @Override
                         public void onResult(String result) {
-                            Log.e("111", "通用文字识别（含位置信息）" + result);
                             infoPopText(result);
                         }
                     });

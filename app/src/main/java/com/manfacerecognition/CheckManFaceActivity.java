@@ -58,8 +58,6 @@ public class CheckManFaceActivity extends AppCompatActivity {
         try {
             imgData = com.withoutBaiduAPI.util.Util.readFileByBytes(pic_Path);
             String base64Content = com.withoutBaiduAPI.util.Util.encode(imgData);
-//            HashMap<String, String> options = new HashMap<String, String>();
-//            options.put("face_fields", "age");
             OkHttpClient okHttpClient = new OkHttpClient();
             RequestBody body = new FormBody.Builder()
                     .add("image", base64Content)

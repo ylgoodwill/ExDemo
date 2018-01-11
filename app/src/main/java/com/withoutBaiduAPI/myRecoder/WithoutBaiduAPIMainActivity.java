@@ -198,17 +198,17 @@ public class WithoutBaiduAPIMainActivity extends AppCompatActivity implements Vi
                         accessToken = json.getString("access_token");
                         //2.将音频文件传输到服务器
                         startTime = System.currentTimeMillis();
-                        JSONObject q = new JSONObject();
+                        JSONObject jobject = new JSONObject();
                         try {
-                            q.put("speech", base64Content);
-                            q.put("format", "pcm");
-                            q.put("rate", 16000);
-                            q.put("channel", 1);
-                            q.put("token", accessToken);
-                            q.put("cuid", com.withoutBaiduAPI.util.Util.md5(accessToken, "UTF-8"));
-                            q.put("len", imgData.length);
+                            jobject.put("speech", base64Content);
+                            jobject.put("format", "pcm");
+                            jobject.put("rate", 16000);
+                            jobject.put("channel", 1);
+                            jobject.put("token", accessToken);
+                            jobject.put("cuid", com.withoutBaiduAPI.util.Util.md5(accessToken, "UTF-8"));
+                            jobject.put("len", imgData.length);
                             MediaType mediaType = MediaType.parse("application/json");
-                            RequestBody requestBody = RequestBody.create(mediaType, q.toString());
+                            RequestBody requestBody = RequestBody.create(mediaType, jobject.toString());
                             //创建一个请求对象
                             Request request = new Request.Builder()
                                     .url(SPEECH_ASR_URL)

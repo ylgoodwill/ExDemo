@@ -56,7 +56,7 @@
         <activity
             android:name="com.withBaiduAPI.android.voicedemo.activity.ActivityOnline"
             android:configChanges="orientation|keyboardHidden|screenLayout"
-            android:label="语音识别（百度API版）"
+            android:label="语音识别（百度SDK版）"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -97,7 +97,7 @@
         <activity
             android:name="com.withoutBaiduAPI.myRecoder.WithoutBaiduAPIMainActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout"
-            android:label="语音识别（非百度API版）"
+            android:label="语音识别（非百度SDK版）"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
